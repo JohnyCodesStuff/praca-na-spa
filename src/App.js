@@ -1,10 +1,15 @@
 import logo from './rose_logo.svg';
 import './App.css';
 import react, {useState} from 'react';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 
 
 
 const App = () => {
+
+  const session = useSession(); //tokens, when session exists we have a user
+  const supabase = useSupabaseClient(); // talk to supabase
+
 
   const [text,setText] = useState("Yes")
 
