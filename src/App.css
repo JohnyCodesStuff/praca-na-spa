@@ -5,6 +5,7 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  margin: 10%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -37,7 +38,35 @@
   }
 }
 
-.button {
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  
+
+.button1 {
+  color: white;
+  background-color: rgb(72, 255, 0);
+  text-shadow: rgb(0, 0, 0) 0cap 0 2px;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 9%;
+  font-family: Garamond, serif;
+}
+
+.button2 {
+  color: white;
+  background-color: rgb(255, 51, 0);
+  text-shadow: rgb(0, 0, 0) 0cap 0 2px;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 9%;
+  font-family: Garamond, serif;
 }
