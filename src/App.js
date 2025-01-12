@@ -2,7 +2,6 @@
 import './App.css';
 import react, {useState} from 'react';
 import { useSession, useSupabaseClient, useSessionContext }  from '@supabase/auth-helpers-react';
-/*import DateTimePicker from 'react-datetime-picker';*/
 import logo from './logos/rose_logo.svg';
 import logo1 from './logos/bag_logo.svg';
 import logo2 from './logos/bouquet_logo.svg';
@@ -15,13 +14,15 @@ import logo8 from './logos/pheart_logo.svg';
 
 
 const App = () => {
-  /*   const [start,setStart] = useState(newDate()); */
+  const start = new Date('February 14, 2025 5:00:00'); 
+  const end = new Date('February 14, 2025 6:00:00'); 
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
   const session = useSession(); //tokens, when session exists we have a user
   const supabase = useSupabaseClient(); // talk to supabase
   const { isLoading } = useSessionContext();
 
-  const [text,setText] = useState("Yes");
   const [text1,setText1] = useState("No");
 
   const logos = [logo, logo1, logo2, logo3, logo4, logo5, logo6, logo7, logo8];
@@ -37,9 +38,9 @@ const App = () => {
       
   };
   
-const woohoo = () => {
+  const woohoo = () => {
       alert('Woohoo!!!! Now scroll down and Log Into your Google Account to create an event');
-}
+  }
 
   async function googleSignIn() {
     const { error }  = await supabase.auth.signInWithOAuth({
@@ -53,19 +54,49 @@ const woohoo = () => {
       console.log(error)
     }
   };
-    
+  
+  async function createCalendarEvent() {
+    console.log('Creating calendar Event');
+    const event = {
+      'summary': eventName,
+      'description': eventDescription,
+      'start': {
+        'dateTime': start.toISOString(), 
+        'timeZone': Intl.DateTimeFormat().resolvedOptions,
+      },
+      'end': {
+        'dateTime': end.toISOString(), 
+        'timeZone': Intl.DateTimeFormat().resolvedOptions,
+      }
+
+    }
+    await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+      method: 'POST',
+      headers: {
+        'Authorization':'Bearer ' + session.provider_token
+      },
+      body: JSON.stringify(event)
+    }).then((data) =>{
+      return data.json();
+    }).then((data) =>{
+      console.log(data);
+      alert('Event created, check your Google Calendar!');
+    })
+
+  }
+
   async function signOut() {
-    await supabase.auth .signOut();
+    await supabase.auth.signOut();
   }
     
   if(isLoading) {
     return <></>
   }
-
-  /* const [ start, setStart ] = useState(newDate()) */
-
-
-
+ 
+  console.log(session);
+  console.log(start);
+  console.log(eventName);
+  console.log(eventDescription);
 
   return (
     <div className="App">
@@ -76,7 +107,7 @@ const woohoo = () => {
         </h3>
         <div className="container">
         <button className="button1" onClick={woohoo}>
-          {text}
+          {'Yes'}
         </button>
         <button className="button2" onClick={changeLogo}>
           {text1}
@@ -86,12 +117,19 @@ const woohoo = () => {
           {session ?
             <>
               <h3>Add our date to your Google Calendar {'<3'} {session.user.login}</h3>
-              <button>
+              <p>Name of your event</p>
+              <input type='text' onChange={(e) => setEventName(e.target.value)}/>
+              <p>Description of your event</p>
+              <input type='text' onChange={(e) => setEventDescription(e.target.value)}/>
+              <p></p>
+              <button onClick={createCalendarEvent}>
                 Add to Google Calendar
               </button>
+              <p></p>
               <button onClick={() => signOut()}>
                 Sign Out
               </button>
+              <p></p>
             </>
             :
             <>
