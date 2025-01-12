@@ -14,8 +14,8 @@ import logo8 from './logos/pheart_logo.svg';
 
 
 const App = () => {
-  const start = new Date('February 14, 2025 5:00:00'); 
-  const end = new Date('February 14, 2025 6:00:00'); 
+  const start = new Date('February 14, 2025 15:00:00'); 
+  const end = new Date('February 14, 2025 16:00:00'); 
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
