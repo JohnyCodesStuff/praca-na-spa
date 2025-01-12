@@ -37,6 +37,10 @@ const App = () => {
       
   };
   
+const woohoo = () => {
+      alert('Woohoo!!!! Now scroll down and Log Into your Google Account to create an event');
+}
+
   async function googleSignIn() {
     const { error }  = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -71,7 +75,7 @@ const App = () => {
           Will You be my Valentine?
         </h3>
         <div className="container">
-        <button className="button1" onClick={() => setText("Woohoo!!!")}>
+        <button className="button1" onClick={woohoo}>
           {text}
         </button>
         <button className="button2" onClick={changeLogo}>
